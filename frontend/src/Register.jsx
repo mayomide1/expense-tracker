@@ -12,12 +12,17 @@ const Register = () => {
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleCreateAccount() {
-    if (!fullName || !username || !email || !password === "") {
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    if (!fullName || !username || !email || !password) {
       setErrorMsg("All field are required");
+      return;
     }
     try {
       setLoading(true);
@@ -27,8 +32,9 @@ const Register = () => {
         email,
         password,
       });
-      localStorage.setItem("loggedUser", JSON.stringify(response.data.user))
-      navigate("/dashboard");
+      setSuccessMsg("Account created successfully");
+      localStorage.setItem("loggedUser", JSON.stringify(response.data.user));
+      setTimeout(() => navigate("/dashboard"), 1500);
       setFullName("");
       setUserName("");
       setEmail("");
@@ -49,11 +55,13 @@ const Register = () => {
         </header>
 
         <p className="auth-error">{errorMsg}</p>
+        <p className="auth-success">{successMsg}</p>
 
         <div className="form-group">
           <label htmlFor="fullname">Full Name</label>
           <input
             type="text"
+            id="fullname"
             name="fullname"
             placeholder="Your full name"
             value={fullName}
@@ -65,6 +73,7 @@ const Register = () => {
           <label htmlFor="username">Username</label>
           <input
             type="text"
+            id="username"
             name="username"
             placeholder="Your Username"
             value={username}
@@ -76,6 +85,7 @@ const Register = () => {
           <label htmlFor="email">Email</label>
           <input
             type="email"
+            id="email"
             name="email"
             placeholder="Your email"
             value={email.toLowerCase()}
@@ -87,6 +97,7 @@ const Register = () => {
           <label htmlFor="password">Password</label>
           <input
             type="password"
+            id="password"
             name="password"
             placeholder="Your Username"
             value={password}
@@ -94,7 +105,10 @@ const Register = () => {
           />
         </div>
 
-        <button className="btn btn-primary" onClick={() => handleCreateAccount()}>
+        <button
+          className="btn btn-primary"
+          onClick={() => handleCreateAccount()}
+        >
           {loading ? "Creating account...." : "Create account"}
         </button>
 

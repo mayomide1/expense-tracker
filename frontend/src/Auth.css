@@ -57,7 +57,6 @@
 }
 
 /* ---------- Error message ---------- */
-/* An empty <p> disappears, so no blank gap shows when there is no error */
 .auth-error {
   margin: 0 0 16px;
   padding: 10px 12px;
@@ -65,10 +64,22 @@
   color: var(--danger);
   border-radius: var(--radius-sm);
   font-size: 0.9rem;
+  text-align: center;
 }
 
-.auth-error:empty {
+.auth-error:empty,
+.auth-success:empty {
   display: none;
+}
+
+.auth-success {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  background: var(--accent);
+  color: var(--surface);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  text-align: center;
 }
 
 /* ---------- Form ---------- */
@@ -93,7 +104,9 @@
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .form-group input::placeholder {
@@ -126,7 +139,9 @@
   font-weight: 500;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
 }
 
 .btn:focus-visible {

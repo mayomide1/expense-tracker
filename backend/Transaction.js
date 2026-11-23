@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const transactionsSchema = new mongoose.Schema(
+const transactionSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -28,9 +28,8 @@ const transactionsSchema = new mongoose.Schema(
         "salary",
         "freelance",
         "investment",
-        "other",
         "food",
-        "transportation",
+        "transport",
         "shopping",
         "bills",
         "entertainment",
@@ -51,4 +50,4 @@ const transactionsSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-module.exports = mongoose.model("Transaction", transactionsSchema);
+module.exports = mongoose.model("Transaction", transactionSchema);

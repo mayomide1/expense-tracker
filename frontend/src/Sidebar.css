@@ -1,0 +1,194 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+
+/* ---------- Design tokens (same palette as the rest of the project) ---------- */
+.sb {
+  --bg: #eef2ef;
+  --surface: #ffffff;
+  --ink: #14221e;
+  --muted: #5b6b64;
+  --border: #d5ddd8;
+  --accent: #0f6b4f;
+  --danger: #b3261e;
+  --danger-bg: #fdecea;
+
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --font: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sidebar-width: 260px;
+}
+
+.sb,
+.sb *,
+.sb *::before,
+.sb *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- Sidebar shell ---------- */
+/* Fixed to the left edge. Give your main content margin-left: 260px */
+.sb {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: var(--sidebar-width);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 16px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  font-family: var(--font);
+  color: var(--ink);
+}
+
+/* ---------- Navigation links ---------- */
+.sb-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sb-nav a {
+  display: block;
+  text-decoration: none;
+}
+
+.sb-nav button {
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit;
+  font-weight: 500;
+  text-align: left;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sb-nav button:hover {
+  background: var(--bg);
+  color: var(--accent);
+}
+
+.sb-nav button:focus-visible {
+  outline: 3px solid rgba(15, 107, 79, 0.35);
+  outline-offset: 2px;
+}
+
+/* ---------- Profile area (bottom) ---------- */
+/* position: relative lets the popup menu sit above this block */
+.sb-profile {
+  position: relative;
+}
+
+.sb-profile-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  font: inherit;
+  text-align: left;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.sb-profile-btn:hover,
+.sb-profile-btn[aria-expanded="true"] {
+  background: var(--bg);
+}
+
+.sb-profile-btn:focus-visible {
+  outline: 3px solid rgba(15, 107, 79, 0.35);
+  outline-offset: 2px;
+}
+
+.sb-avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.sb-user {
+  flex: 1;
+  min-width: 0; /* lets long names be cut off with ... instead of overflowing */
+  display: flex;
+  flex-direction: column;
+}
+
+.sb-name,
+.sb-handle {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sb-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.sb-handle {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.sb-dots {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--muted);
+}
+
+/* ---------- Popup menu (opens above the profile, like X) ---------- */
+.sb-menu {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  margin-bottom: 8px;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 28px rgba(20, 34, 30, 0.16);
+}
+
+.sb-menu-item {
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit;
+  font-weight: 500;
+  text-align: left;
+  color: var(--danger);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.sb-menu-item:hover {
+  background: var(--danger-bg);
+}
+
+.sb-menu-item:focus-visible {
+  outline: 3px solid rgba(179, 38, 30, 0.35);
+  outline-offset: 2px;
+}

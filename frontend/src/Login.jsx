@@ -11,24 +11,26 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleLogin() {
+    setErrorMsg("")
     if (!email || !password === "") {
-      setError("All field are required");
+      setErrorMsg("All field are required");
     }
     try {
       setLoading(true);
       const response = await axios.post(`${api}/login`, { email, password });
-      alert("login successful");
+      setSuccessMsg("Login successful");
       localStorage.setItem("loggedUser", JSON.stringify(response.data.user));
-      navigate("/dashboard");
+      setTimeout (() => navigate("/dashboard"), 1500);
       setEmail("");
       setPassword("");
     } catch (error) {
       const backendMessage = error.response?.data?.message || error.message;
-      setError(backendMessage);
+      setErrorMsg(backendMessage);
     } finally {
       setLoading(false);
     }
@@ -42,12 +44,14 @@ const Login = () => {
           <p>Start managing your finance smarter and better.</p>
         </header>
 
-        <p className="auth-error">{error}</p>
+        <p className="auth-error">{errorMsg}</p>
+        <p className="auth-success">{successMsg}</p>
 
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
             type="email"
+            id="email"
             placeholder="you@example.com"
             value={email.toLowerCase()}
             onChange={(e) => setEmail(e.target.value)}
@@ -58,6 +62,7 @@ const Login = () => {
           <label htmlFor="password">Password</label>
           <input
             type="password"
+            id="password"
             placeholder="At least 8 characters"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
