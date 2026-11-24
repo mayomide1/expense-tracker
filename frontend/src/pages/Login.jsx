@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./Auth.css";
+import "../css/Auth.css";
 
 import { FcGoogle } from "react-icons/fc";
 

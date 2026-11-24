@@ -1,0 +1,55 @@
+.add-transaction {
+  --page-bg: #ffffff; 
+  --bg: #eef2ef;
+  --surface: #ffffff;
+  --ink: #14221e;
+  --muted: #5b6b64;
+  --border: #d5ddd8;
+  --accent: #0f6b4f;
+
+  --radius-lg: 16px;
+  --font: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sidebar-width: 260px;
+}
+
+.add-transaction,
+.add-transaction *,
+.add-transaction *::before,
+.add-transaction *::after {
+  box-sizing: border-box;
+}
+
+.add-transaction {
+  min-height: 100vh;
+  background: var(--page-bg);
+  font-family: var(--font);
+  color: var(--ink);
+}
+
+.add-transaction-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.add-transaction-header h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+
+.add-transaction.sidebar-hidden .sb {
+  display: none;
+}
+
+.add-transaction.sidebar-hidden .add-transaction-main {
+  margin-left: 0;
+}
+
+@media (max-width: 768px) {
+  .add-transaction-main {
+    padding: 24px 20px;
+  }
+}

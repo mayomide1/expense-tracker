@@ -1,0 +1,55 @@
+.settings {
+  --page-bg: #ffffff; 
+  --bg: #eef2ef;
+  --surface: #ffffff;
+  --ink: #14221e;
+  --muted: #5b6b64;
+  --border: #d5ddd8;
+  --accent: #0f6b4f;
+
+  --radius-lg: 16px;
+  --font: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sidebar-width: 260px;
+}
+
+.settings,
+.settings *,
+.settings *::before,
+.settings *::after {
+  box-sizing: border-box;
+}
+
+.settings {
+  min-height: 100vh;
+  background: var(--page-bg);
+  font-family: var(--font);
+  color: var(--ink);
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.settings-header h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+
+.settings.sidebar-hidden .sb {
+  display: none;
+}
+
+.settings.sidebar-hidden .settings-main {
+  margin-left: 0;
+}
+
+@media (max-width: 768px) {
+  .settings-main {
+    padding: 24px 20px;
+  }
+}

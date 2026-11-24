@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./ChangePassword.css";
+import "../css/ChangePassword.css";
 
 const api = import.meta.env.VITE_API_URL;
 

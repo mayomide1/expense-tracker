@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
 
-/* ---------- Design tokens (same palette as the rest of the project) ---------- */
 .sb {
   --bg: #eef2ef;
   --surface: #ffffff;
@@ -24,8 +23,6 @@
   box-sizing: border-box;
 }
 
-/* ---------- Sidebar shell ---------- */
-/* Fixed to the left edge. Give your main content margin-left: 260px */
 .sb {
   position: fixed;
   top: 0;
@@ -41,9 +38,13 @@
   border-right: 1px solid var(--border);
   font-family: var(--font);
   color: var(--ink);
+  height: 100vh;
+  height: 100dvh; 
+  transform: translateX(-100%);
+  visibility: hidden;          
+  transition: transform 0.25s ease, visibility 0.25s;
 }
 
-/* ---------- Navigation links ---------- */
 .sb-nav {
   display: flex;
   flex-direction: column;
@@ -79,8 +80,6 @@
   outline-offset: 2px;
 }
 
-/* ---------- Profile area (bottom) ---------- */
-/* position: relative lets the popup menu sit above this block */
 .sb-profile {
   position: relative;
 }
@@ -127,7 +126,7 @@
 
 .sb-user {
   flex: 1;
-  min-width: 0; /* lets long names be cut off with ... instead of overflowing */
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
@@ -156,7 +155,6 @@
   color: var(--muted);
 }
 
-/* ---------- Popup menu (opens above the profile, like X) ---------- */
 .sb-menu {
   position: absolute;
   bottom: 100%;
@@ -191,4 +189,62 @@
 .sb-menu-item:focus-visible {
   outline: 3px solid rgba(179, 38, 30, 0.35);
   outline-offset: 2px;
+}
+
+.sb.sb--open {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+.sb-link,
+.sb-nav button {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit;
+  font-weight: 500;
+  text-align: left;
+  text-decoration: none;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sb-link:hover,
+.sb-nav button:hover {
+  background: var(--bg);
+  color: var(--accent);
+}
+
+.sb-link:focus-visible,
+.sb-nav button:focus-visible {
+  outline: 3px solid rgba(15, 107, 79, 0.35);
+  outline-offset: 2px;
+}
+
+.sb-close {
+  display: none !important;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .sb {
+    width: 100vw;
+    z-index: 100;
+    border-right: none;
+  }
+
+  .sb-close {
+    display: flex !important;
+  }
+
+  .sb-link {
+    padding: 16px 14px;
+    font-size: 1.1rem;
+  }
 }

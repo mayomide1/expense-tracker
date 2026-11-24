@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
 
-/* ---------- Design tokens (same palette as the rest of the project) ---------- */
 .dash {
+  --page-bg: #ffffff; 
   --bg: #eef2ef;
   --surface: #ffffff;
   --ink: #14221e;
@@ -11,7 +11,7 @@
 
   --radius-lg: 16px;
   --font: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --sidebar-width: 260px; /* must match the width set in Sidebar.css */
+  --sidebar-width: 260px;
 }
 
 .dash,
@@ -21,21 +21,13 @@
   box-sizing: border-box;
 }
 
-/* ---------- Page shell ---------- */
 .dash {
   min-height: 100vh;
-  background: var(--bg);
+  background: var(--page-bg);
   font-family: var(--font);
   color: var(--ink);
 }
 
-/* The sidebar is fixed to the left, so push the content right by its width */
-.dash-main {
-  margin-left: var(--sidebar-width);
-  padding: 32px 40px;
-}
-
-/* ---------- Page header ---------- */
 .dash-header {
   display: flex;
   align-items: center;
@@ -50,15 +42,12 @@
   line-height: 1.2;
 }
 
-/* ---------- Content area ---------- */
 .dash-content {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-/* Ready-to-use grid and card styles for when you add content.
-   Example: <div className="dash-grid"><div className="dash-card">...</div></div> */
 .dash-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -73,7 +62,14 @@
   box-shadow: 0 4px 16px rgba(20, 34, 30, 0.05);
 }
 
-/* ---------- Small screens ---------- */
+.dash.sidebar-hidden .sb {
+  display: none;
+}
+
+.dash.sidebar-hidden .dash-main {
+  margin-left: 0;
+}
+
 @media (max-width: 768px) {
   .dash-main {
     padding: 24px 20px;

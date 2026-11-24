@@ -1,17 +1,15 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
-import Sidebar from "./Sidebar";
-import "./Dashboard.css";
+import Sidebar from "../components/Sidebar";
+import "../css/Dashboard.css";
 
 import { IoMdAdd } from "react-icons/io";
 
 const api = import.meta.env.VITE_API_URL
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-
   const [addTransaction, setAddTransaction] = useState(false);
   const [isExpenseOrIncome, setIsExpenseOrIncome] = useState("expense")
 
@@ -33,15 +31,17 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="dash">
+    <div className={`dash`}>
       <Sidebar />
 
       <main className="dash-main">
         <header className="dash-header">
           <h2>Dashboard</h2>
+          <Link to="/add-transaction">
           <button onClick={() => setAddTransaction(!addTransaction)}>
             <IoMdAdd/>Add transaction
           </button>
+          </Link>
         </header>
 
         <section className="dash-content">
