@@ -4,14 +4,17 @@ import axios from "axios";
 import Sidebar from "./Sidebar";
 import "./Transactions.css";
 
+import { IoMdAdd } from "react-icons/io";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import Header from "./Header";
+
 const api = import.meta.env.VITE_API_URL;
 
 const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-
-  const user = JSON.parse(localStorage.getItem("user"));
 
   async function handleGetTransactions() {
     try {
@@ -43,8 +46,10 @@ const Transactions = () => {
       <Sidebar />
 
       <main className="transaction-main">
+        <Header />
         <header className="transaction-header">
           <h2>Transactions</h2>
+          <button><IoMdAdd /> Add transaction</button>
         </header>
 
         <section className="transaction-content">
@@ -81,42 +86,34 @@ const Transactions = () => {
               <table className="transaction-table">
                 <thead>
                   <tr>
-                    <th>Amount</th>
-                    <th>Type</th>
-                    <th>Category</th>
-                    <th>Description</th>
                     <th>Date</th>
-                    <th>Action</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   {transactions.map((transaction) => {
                     return (
                       <tr key={transaction._id}>
+                        <td className="transaction-date">{transaction.date}</td>
+                        <td>{transaction.description === "" ? "-" : transaction.description}</td>
+                        <td className="transaction-category">
+                          {transaction.category}
+                        </td>
                         <td
                           className={`transaction-amount transaction-amount-${transaction.type}`}
                         >
                           ₦{transaction.amount.toLocaleString()}
                         </td>
                         <td>
-                          <span
-                            className={`transaction-badge transaction-badge-${transaction.type}`}
-                          >
-                            {transaction.type}
-                          </span>
-                        </td>
-                        <td className="transaction-category">
-                          {transaction.category}
-                        </td>
-                        <td>{transaction.description}</td>
-                        <td className="transaction-date">{transaction.date}</td>
-                        <td>
                           <div className="transaction-actions">
                             <button className="transaction-btn transaction-btn-edit">
-                              Edit
+                              <FaEdit/> Edit
                             </button>
                             <button className="transaction-btn transaction-btn-delete">
-                              Delete
+                              <MdDelete/> Delete
                             </button>
                           </div>
                         </td>

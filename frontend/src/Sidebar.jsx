@@ -59,6 +59,9 @@ const Sidebar = () => {
         <Link to="/transactions">
           <button>Transactions</button>
         </Link>
+        <Link>
+        <button>Settings</button>
+        </Link>
       </nav>
 
       <div className="sb-profile" ref={profileRef}>

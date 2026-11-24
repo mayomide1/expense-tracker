@@ -5,6 +5,7 @@ import axios from "axios";
 import Sidebar from "./Sidebar";
 import "./Dashboard.css";
 
+import { IoMdAdd } from "react-icons/io";
 
 const api = import.meta.env.VITE_API_URL
 
@@ -20,7 +21,7 @@ const Dashboard = () => {
   const [date, setDate] = useState("");
   const type = isExpenseOrIncome
 
-  const todayDate = new Date().toLocaleDateString();
+  
 
   async function handleAddTransaction(){
     const response = await axios.post(`${api}/transaction`, {amount, description, category, date, type})
@@ -38,9 +39,8 @@ const Dashboard = () => {
       <main className="dash-main">
         <header className="dash-header">
           <h2>Dashboard</h2>
-          <p>{todayDate}</p>
           <button onClick={() => setAddTransaction(!addTransaction)}>
-            Add transaction
+            <IoMdAdd/>Add transaction
           </button>
         </header>
 

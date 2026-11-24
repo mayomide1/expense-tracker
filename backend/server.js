@@ -183,7 +183,7 @@ app.post("/transaction", protect, async (req, res) => {
         type,
         category,
         description,
-        date: new Date().toISOString()
+        date: new Date()
     })
     res.status(200).json({message: "Transaction added successfully", transaction})
   } catch (error) {
