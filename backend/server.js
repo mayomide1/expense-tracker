@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("./User");
+const protect = require("./middleware/auth")
 const Transaction = require("./Transaction");
 
 const app = express();
@@ -44,6 +45,10 @@ app.post("/register", async (req, res) => {
       email,
       password: hashedPassword,
     });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+  expiresIn: "7d",
+});
 
     res.status(200).json({
       message: "Account created successfully",
@@ -98,15 +103,15 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.put("/change-password", async (req, res) => {
+app.put("/change-password", protect, async (req, res) => {
   try {
-    const { email, currentPassword, newPassword } = req.body;
+    const {currentPassword, newPassword } = req.body;
 
-    if (!email || !currentPassword || !newPassword) {
+    if (!currentPassword || !newPassword) {
       return res.status(400).json({ message: "All field are required" });
     }
 
-    const user = await User.findOne({ email }).select("+password");
+    const user = await User.findById(req.userId).select("+password");
 
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
@@ -115,7 +120,7 @@ app.put("/change-password", async (req, res) => {
     const isMatch = await bcrypt.compare(currentPassword, user.password);
 
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Current password is incorrect" });
     }
 
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
@@ -125,7 +130,7 @@ app.put("/change-password", async (req, res) => {
     await user.save();
 
     res.status(200).json({
-      message: "Password has been changed successfully.",
+      message: "Password updated",
       user: {
         id: user._id,
         fullname: user.fullname,
@@ -140,24 +145,66 @@ app.put("/change-password", async (req, res) => {
   }
 });
 
-app.delete("/delete-user/:userId", async (req, res) => {
+app.delete("/delete-me/", protect, async (req, res) => {
   try {
-    const { userId } = req.params;
-    const user = await User.findByIdAndDelete(userId);
-    res
-      .status(200)
-      .json({ message: "Your account has been deleted sucessfully." });
+     const user = await User.findByIdAndDelete(req.userId);
+    if (!user) {
+    return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ message: "Your account has been deleted successfully." });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-app.post("/transaction", async (req, res) => {
+app.delete("/delete-user/:id", async (req, res) => {
   try {
+    const {id} = req.params
+     const user = await User.findByIdAndDelete(id);
+    if (!user) {
+    return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ message: "Your account has been deleted successfully." });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.post("/transaction", protect, async (req, res) => {
+  try {
+    const {amount, description, category, date, type} = req.body
+
+    if(!amount || !category || !type){
+          return res.status(400).json({ message: "Missing required fields" });
+    }
+    const transaction = await Transaction.create({
+        userId: req.userId,
+        amount, 
+        type,
+        category,
+        description,
+        date: new Date().toISOString()
+    })
+    res.status(200).json({message: "Transaction added successfully", transaction})
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
+app.get("/transactions", protect, async(req, res) => {
+    try{
+        const transactions = await Transaction.find({userId: req.userId})
+
+        if(!transactions){
+          return  res.status(400).json({message: "No transactions yet!"})
+        }
+
+        res.status(200).json(transactions)
+
+    }catch(error){
+       res.status(500).json({ error: error.message }); 
+    }
+})
 
 const port = process.env.PORT;
 

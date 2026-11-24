@@ -1,7 +1,12 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+
 import Sidebar from "./Sidebar";
 import "./Dashboard.css";
-import { useState } from "react";
+
+
+const api = import.meta.env.VITE_API_URL
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -13,8 +18,18 @@ const Dashboard = () => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
+  const type = isExpenseOrIncome
 
   const todayDate = new Date().toLocaleDateString();
+
+  async function handleAddTransaction(){
+    const response = await axios.post(`${api}/transaction`, {amount, description, category, date, type})
+    console.log(amount)
+    console.log(description)
+    console.log(category)
+    console.log(date)
+    console.log(type)
+  }
 
   return (
     <div className="dash">
@@ -48,7 +63,7 @@ const Dashboard = () => {
             <label htmlFor="amount">Amount</label>
             <input
               type="text"
-              placeholder="₦0.00"
+              placeholder="₦ 0.00"
               id="amount"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -88,7 +103,7 @@ const Dashboard = () => {
 
               <div>
                 <button onClick={() => setAddTransaction(false)}>Cancel</button>
-                <button>Add Transaction</button>
+                <button onClick={() => handleAddTransaction()}>Add Transaction</button>
               </div>
             </div>
           </div>

@@ -2,13 +2,19 @@
 
 /* ---------- Design tokens (same palette as the rest of the project) ---------- */
 .transaction {
+  --page-bg: #ffffff; /* change to #eef2ef to match the Login page's green-grey */
   --bg: #eef2ef;
   --surface: #ffffff;
   --ink: #14221e;
   --muted: #5b6b64;
   --border: #d5ddd8;
   --accent: #0f6b4f;
+  --accent-hover: #0b5640;
+  --accent-soft: #e3f3ec;
+  --danger: #b3261e;
+  --danger-bg: #fdecea;
 
+  --radius-sm: 8px;
   --radius-lg: 16px;
   --font: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --sidebar-width: 260px; /* must match the width set in Sidebar.css */
@@ -24,7 +30,7 @@
 /* ---------- Page shell ---------- */
 .transaction {
   min-height: 100vh;
-  background: var(--bg);
+  background: var(--page-bg);
   font-family: var(--font);
   color: var(--ink);
 }
@@ -57,14 +63,211 @@
   gap: 24px;
 }
 
-/* Ready-to-use card style for when you add content, e.g. a transactions list.
-   Example: <div className="transaction-card">...</div> */
 .transaction-card {
   padding: 24px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: 0 4px 16px rgba(20, 34, 30, 0.05);
+}
+
+/* ---------- Table ---------- */
+/* The wrapper gives the table its rounded card look and scrolls sideways on small screens */
+.transaction-table-wrapper {
+  overflow-x: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 16px rgba(20, 34, 30, 0.05);
+}
+
+.transaction-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 0.925rem;
+}
+
+.transaction-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.transaction-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.transaction-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.transaction-table tbody tr:hover {
+  background: #f7faf8;
+}
+
+/* ---------- Loading, error and empty states ---------- */
+.transaction-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.transaction-state p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.transaction-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: transaction-spin 0.8s linear infinite;
+}
+
+@keyframes transaction-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transaction-spinner {
+    animation-duration: 2.4s;
+  }
+}
+
+.transaction-error {
+  width: 100%;
+  max-width: 480px;
+  padding: 12px 16px;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-radius: var(--radius-sm);
+  font-size: 0.925rem;
+}
+
+.transaction-empty h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--ink);
+}
+
+.transaction-empty p {
+  max-width: 360px;
+}
+
+/* ---------- Cell styles ---------- */
+.transaction-amount {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.transaction-amount-income {
+  color: var(--accent);
+}
+
+.transaction-amount-expense {
+  color: var(--danger);
+}
+
+.transaction-category {
+  text-transform: capitalize;
+}
+
+.transaction-date {
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ---------- Type badge ---------- */
+.transaction-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  border-radius: 999px;
+}
+
+.transaction-badge-income {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.transaction-badge-expense {
+  color: var(--danger);
+  background: var(--danger-bg);
+}
+
+/* ---------- Buttons ---------- */
+.transaction-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.transaction-btn {
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.transaction-btn:focus-visible {
+  outline: 3px solid rgba(15, 107, 79, 0.35);
+  outline-offset: 2px;
+}
+
+.transaction-btn-edit {
+  color: var(--ink);
+}
+
+.transaction-btn-edit:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.transaction-btn-delete {
+  color: var(--danger);
+}
+
+.transaction-btn-delete:hover {
+  background: var(--danger-bg);
+  border-color: var(--danger);
+}
+
+/* Main call-to-action button (green, filled) */
+.transaction-btn-primary {
+  margin-top: 8px;
+  padding: 11px 20px;
+  font-size: 0.95rem;
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.transaction-btn-primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
 }
 
 /* ---------- Small screens ---------- */

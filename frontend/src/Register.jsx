@@ -32,8 +32,9 @@ const Register = () => {
         email,
         password,
       });
-      setSuccessMsg("Account created successfully");
-      localStorage.setItem("loggedUser", JSON.stringify(response.data.user));
+      setSuccessMsg(response.data.message);
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       setTimeout(() => navigate("/dashboard"), 1500);
       setFullName("");
       setUserName("");

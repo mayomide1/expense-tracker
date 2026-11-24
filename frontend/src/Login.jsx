@@ -23,8 +23,9 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await axios.post(`${api}/login`, { email, password });
-      setSuccessMsg("Login successful");
-      localStorage.setItem("loggedUser", JSON.stringify(response.data.user));
+      setSuccessMsg(response.data.message);
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       setTimeout (() => navigate("/dashboard"), 1500);
       setEmail("");
       setPassword("");

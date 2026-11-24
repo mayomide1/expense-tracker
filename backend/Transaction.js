@@ -7,11 +7,6 @@ const transactionSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    title: {
-      type: String,
-      required: true,
-      trim: true,
-    },
     amount: {
       type: Number,
       min: [1, 'Must be at least 1'],

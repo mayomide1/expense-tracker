@@ -2,15 +2,25 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 
+import { MdKeyboardArrowDown, MdKeyboardArrowUp  } from "react-icons/md";
+
 const Sidebar = () => {
   const navigate = useNavigate();
-  const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const token = (localStorage.getItem("token") || "null");
 
   const [menuOpen, setMenuOpen] = useState(false);
   const profileRef = useRef(null);
 
+  useEffect(() => {
+    if(!user || !token){
+        navigate("/")
+    }
+  },[user, token, navigate])
+
   function handleLogout() {
-    localStorage.removeItem("loggedUser");
+      localStorage.removeItem("user");
+  localStorage.removeItem("token");
     navigate("/");
   }
 
@@ -36,6 +46,10 @@ const Sidebar = () => {
     };
   }, []);
 
+    if (!user || !token) {
+    return null;
+  }
+
   return (
     <aside className="sb">
       <nav className="sb-nav">
@@ -55,7 +69,7 @@ const Sidebar = () => {
               role="menuitem"
               onClick={() => handleLogout()}
             >
-              Log out @{loggedUser.username}
+              Log out @{user.username}
             </button>
           </div>
         )}
@@ -66,13 +80,13 @@ const Sidebar = () => {
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          <span className="sb-avatar">{loggedUser.fullname?.charAt(0)}</span>
+          <span className="sb-avatar">{user.fullname?.charAt(0)}</span>
           <span className="sb-user">
-            <span className="sb-name">{loggedUser.fullname}</span>
-            <span className="sb-handle">@{loggedUser.username}</span>
+            <span className="sb-name">{user.fullname}</span>
+            <span className="sb-handle">@{user.username}</span>
           </span>
           <span className="sb-dots" aria-hidden="true">
-            ⋯
+            {menuOpen ? <><MdKeyboardArrowUp /></> : <><MdKeyboardArrowDown/></>}
           </span>
         </button>
       </div>
