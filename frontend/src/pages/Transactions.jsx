@@ -145,7 +145,7 @@ const Transactions = () => {
                         }`}
                         data-label="Description"
                       >
-                        <span>{transaction.description || "-"}</span>
+                        <span>{transaction.description || transaction.category.charAt(0).toUpperCase()+ transaction.category.slice(1)}</span>
                       </td>
                       <td
                         className="transaction-category"

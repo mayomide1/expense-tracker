@@ -19,7 +19,7 @@ const Header = ({ onToggleSidebar }) => {
         </button>
 
         <div className="app-header-text">
-          <p className="app-header-title">Welcome back, {user.fullname}</p>
+          <p className="app-header-title">Welcome back</p>
           <p className="app-header-date">{today}</p>
         </div>
       </div>
