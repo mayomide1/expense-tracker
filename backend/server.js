@@ -47,7 +47,7 @@ app.post("/register", async (req, res) => {
     });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-  expiresIn: "7d",
+  expiresIn: "10m",
 });
 
     res.status(200).json({
@@ -174,8 +174,8 @@ app.post("/transaction", protect, async (req, res) => {
   try {
     const {amount, description, category, date, type} = req.body
 
-    if(!amount || !category || !type){
-          return res.status(400).json({ message: "Missing required fields" });
+    if(!amount || !description || !category || !type ||!date){
+          return res.status(400).json({ message: "All fields are required" });
     }
     const transaction = await Transaction.create({
         userId: req.userId,
@@ -194,6 +194,7 @@ app.post("/transaction", protect, async (req, res) => {
 app.get("/transactions", protect, async(req, res) => {
     try{
         const transactions = await Transaction.find({userId: req.userId})
+        .sort({ date: -1, createdAt: -1 });
 
         if(!transactions){
           return  res.status(400).json({message: "No transactions yet!"})

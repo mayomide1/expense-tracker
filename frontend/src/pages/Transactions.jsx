@@ -52,7 +52,7 @@ const Transactions = () => {
 
   const query = search.trim().toLowerCase();
   const filteredTransactions = transactions.filter((t) =>
-    `${t.description || ""} ${t.category || ""}`.toLowerCase().includes(query)
+    `${t.description || ""}`.toLowerCase().includes(query)
   );
 
   return (
@@ -71,7 +71,7 @@ const Transactions = () => {
           <div className="transaction-search">
             <input
               type="search"
-              placeholder="Search description or category"
+              placeholder="Search description"
               aria-label="Search transactions"
               value={search}
               onChange={(e) => setSearch(e.target.value)}

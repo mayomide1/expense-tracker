@@ -74,7 +74,7 @@ const Login = () => {
         <p className="forgot-password" onClick={() => navigate("/forgot-password")}>Forgot password?</p>
 
         <button className="btn btn-primary" onClick={() => handleLogin()}>
-          {loading ? <>Login <span className="transaction-spinner" aria-hidden="true"></span></>: "Login"}
+          {loading ? "Logging in...": "Login"}
           
         </button>
 

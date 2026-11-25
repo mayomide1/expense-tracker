@@ -25,9 +25,6 @@ const Header = ({ onToggleSidebar }) => {
       </div>
 
       <div className="app-header-actions">
-        <button className="app-header-icon-btn">
-          <IoIosNotifications />
-        </button>
         <div className="app-header-avatar">{user.fullname?.charAt(0)}</div>
       </div>
     </header>

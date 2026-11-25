@@ -150,6 +150,10 @@
   font-weight: 700;
 }
 
+.dash-panel-expense{
+  margin: 0 0 20px;
+}
+
 /* ---------- Spending by category ---------- */
 .dash-category-list {
   display: flex;
@@ -194,6 +198,8 @@
 /* ---------- Recent transactions ---------- */
 .dash-recent-list{
   margin-top: 20px;
+  height: 320px;
+  padding: 10px;
 }
 
 .dash-recent {

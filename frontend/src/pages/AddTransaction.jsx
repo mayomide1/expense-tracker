@@ -106,7 +106,7 @@ const AddTransaction = () => {
               inputMode="decimal"
               min="0"
               step="0.01"
-              placeholder="₦ 0.00"
+              placeholder="₦100.00"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
