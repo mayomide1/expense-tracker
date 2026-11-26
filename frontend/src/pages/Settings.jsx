@@ -5,6 +5,7 @@ import axios from "axios";
 import "../css/Settings.css";
 
 const api = import.meta.env.VITE_API_URL;
+const token = localStorage.getItem("token");
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -13,7 +14,8 @@ const Settings = () => {
   /* ---------- Profile ---------- */
   const [fullname, setFullname] = useState(user?.fullname || "");
   const [username, setUsername] = useState(user?.username || "");
-  const [profileStatus, setProfileStatus] = useState(null); // { type, message }
+  const [email, setEmail] = useState(user?.email || "");
+  const [profileStatus, setProfileStatus] = useState(null);
   const [profileLoading, setProfileLoading] = useState(false);
 
   async function handleSaveProfile(e) {
@@ -56,7 +58,6 @@ const Settings = () => {
     newPassword.length > 0 && newPassword === confirmPassword;
 
   async function handleChangePassword(e) {
-    const token = localStorage.getItem("token");
     e.preventDefault();
     setPasswordStatus(null);
 
@@ -77,13 +78,13 @@ const Settings = () => {
 
     try {
       setPasswordLoading(true);
-      const response = await axios.put(
+     await axios.put(
         `${api}/change-password`,
         { currentPassword, newPassword },
         { headers: { Authorization: `Bearer ${token}` } },
       );
-      console.log(response.data);
       setPasswordStatus({ type: "success", message: "Password changed." });
+      setTimeout(() => {navigate("/")}, 1000)
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
@@ -100,35 +101,22 @@ const Settings = () => {
   /* ---------- Danger zone ---------- */
   const [dangerStatus, setDangerStatus] = useState(null);
 
-  async function handleDeleteAllTransactions() {
-    if (!window.confirm("Delete ALL your transactions? This cannot be undone."))
-      return;
-
-    try {
-      // TODO: await axios.delete(`${api}/transactions`, { headers })
-      // setDangerStatus({ type: "success", message: "All transactions deleted." });
-    } catch (err) {
-      setDangerStatus({
-        type: "error",
-        message: err.response?.data?.message || err.message,
-      });
-    }
-  }
-
   async function handleDeleteAccount() {
     if (!window.confirm("Permanently delete your account and all its data?"))
       return;
 
     try {
-      // TODO: await axios.delete(`${api}/user`, { headers })
-      // localStorage.removeItem("user");
-      // localStorage.removeItem("token");
-      // navigate("/");
+      await axios.delete(
+        `${api}/users/me`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      alert("Your account has been deleted successfully.")
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      navigate("/");
     } catch (err) {
-      setDangerStatus({
-        type: "error",
-        message: err.response?.data?.message || err.message,
-      });
+      const backendMessage = err.response?.data?.message || err.message
+      setDangerStatus(backendMessage);
     }
   }
 
@@ -146,9 +134,19 @@ const Settings = () => {
             <p className="settings-card-desc">
               Your name and username shown across the app.
             </p>
+            <div className="divider"></div>
 
             <form onSubmit={handleSaveProfile}>
               <div className="settings-row">
+                <div className="settings-field">
+                  <label htmlFor="username">Email address</label>
+                  <input
+                    id="username"
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
                 <div className="settings-field">
                   <label htmlFor="fullname">Full name</label>
                   <input
@@ -185,7 +183,7 @@ const Settings = () => {
           <section className="settings-card">
             <h3 className="settings-card-title">Password</h3>
             <p className="settings-card-desc">Use at least 8 characters.</p>
-
+            <div className="divider"></div>
             <form onSubmit={handleChangePassword}>
               <div className="settings-field">
                 <label htmlFor="currentPassword">Current password</label>
@@ -251,23 +249,7 @@ const Settings = () => {
             <p className="settings-card-desc">
               These actions cannot be undone.
             </p>
-
-            <div className="settings-danger-row">
-              <div>
-                <p className="settings-danger-title">Delete all transactions</p>
-                <p className="settings-danger-text">
-                  Clears your income and expense history.
-                </p>
-              </div>
-              <button
-                type="button"
-                className="settings-btn settings-btn-danger"
-                onClick={handleDeleteAllTransactions}
-              >
-                Delete transactions
-              </button>
-            </div>
-
+            <div className="divider"></div>
             <div className="settings-danger-row">
               <div>
                 <p className="settings-danger-title">Delete account</p>

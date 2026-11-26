@@ -7,7 +7,11 @@
   --muted: #5b6b64;
   --border: #d5ddd8;
   --accent: #0f6b4f;
+  --danger: #b3261e;
+  --danger-bg: #fdecea;
 
+  --radius-sm: 8px;
+  --radius-lg: 16px;
   --font: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
@@ -91,17 +95,137 @@
   outline-offset: 2px;
 }
 
+/* ---------- Avatar (now a button) ---------- */
 .app-header-avatar {
   width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  font: inherit;
   font-weight: 700;
   text-transform: uppercase;
   color: #fff;
   background: var(--accent);
+  border: none;
   border-radius: 50%;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+
+.app-header-avatar:hover,
+.app-header-avatar[aria-expanded="true"] {
+  box-shadow: 0 0 0 3px rgba(15, 107, 79, 0.25);
+}
+
+.app-header-avatar:focus-visible {
+  outline: 3px solid rgba(15, 107, 79, 0.35);
+  outline-offset: 2px;
+}
+
+/* ---------- Avatar dropdown ---------- */
+/* relative: lets the menu hang just below the avatar */
+.app-header-profile {
+  position: relative;
+}
+
+.app-header-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 50;
+  min-width: 220px;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 28px rgba(20, 34, 30, 0.16);
+  animation: app-header-menu-in 0.12s ease-out;
+}
+
+@keyframes app-header-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-header-menu {
+    animation: none;
+  }
+}
+
+.app-header-menu-user {
+  padding: 10px 12px 12px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.app-header-menu-name {
+  margin: 0;
+  font-weight: 700;
+  font-size: 0.95rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.app-header-menu-handle {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.app-header-menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  font: inherit;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: left;
+  text-decoration: none;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.app-header-menu-item svg {
+  flex-shrink: 0;
+  font-size: 1.2rem;
+}
+
+.app-header-menu-item:hover {
+  color: var(--accent);
+  background: var(--bg);
+}
+
+.app-header-menu-item:focus-visible {
+  outline: 3px solid rgba(15, 107, 79, 0.35);
+  outline-offset: -2px;
+}
+
+.app-header-menu-logout {
+  color: var(--danger);
+}
+
+.app-header-menu-logout:hover {
+  color: var(--danger);
+  background: var(--danger-bg);
 }
 
 @media (max-width: 480px) {
@@ -111,5 +235,9 @@
 
   .app-header-title {
     font-size: 1rem;
+  }
+
+  .app-header-menu {
+    min-width: 200px;
   }
 }

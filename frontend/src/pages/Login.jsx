@@ -23,13 +23,13 @@ const Login = () => {
     }
     try {
       setLoading(true);
-      const response = await axios.post(`${api}/login`, { email, password });
+      const response = await axios.post(`${api}/auth/login`, { email, password });
       setSuccessMsg(response.data.message);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
-      setTimeout (() => navigate("/dashboard"), 1500);
       setEmail("");
       setPassword("");
+      setTimeout (() => navigate("/dashboard"), 1000);
     } catch (error) {
       const backendMessage = error.response?.data?.message || error.message;
       setErrorMsg(backendMessage);
@@ -45,7 +45,7 @@ const Login = () => {
           <h2>Welcome back!</h2>
           <p>Start managing your finance smarter and better.</p>
         </header>
-
+        
         <p className="auth-error">{errorMsg}</p>
         <p className="auth-success">{successMsg}</p>
 

@@ -36,23 +36,34 @@ const Transactions = () => {
     }
   }
 
+  async function handleDeleteTransaction(id) {
+    setError("");
+    if (!window.confirm("Permanently delete this transaction")) return;
+    try {
+      await axios.delete(`${api}/delete-transaction/${id}`);
+      handleGetTransactions();
+    } catch (error) {
+      const backendMessage = error.response?.data?.message || error.message;
+      setError(backendMessage);
+    }
+  }
+
   useEffect(() => {
     handleGetTransactions();
   }, []);
 
   function formatDate(dateString) {
-  if (!dateString) return "-";
+    if (!dateString) return "-";
 
-  return new Date(dateString).toLocaleDateString("en-NG", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
-
+    return new Date(dateString).toLocaleDateString("en-NG", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  }
   const query = search.trim().toLowerCase();
   const filteredTransactions = transactions.filter((t) =>
-    `${t.description || ""}`.toLowerCase().includes(query)
+    `${t.description || ""}`.toLowerCase().includes(query),
   );
 
   return (
@@ -76,9 +87,11 @@ const Transactions = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <IoMdSearch className="transaction-search-icon" aria-hidden="true" />
+            <IoMdSearch
+              className="transaction-search-icon"
+              aria-hidden="true"
+            />
           </div>
-
         </div>
 
         <section className="transaction-content">
@@ -141,11 +154,17 @@ const Transactions = () => {
                       </td>
                       <td
                         className={`transaction-description ${
-                          transaction.description ? "" : "transaction-description-empty"
+                          transaction.description
+                            ? ""
+                            : "transaction-description-empty"
                         }`}
                         data-label="Description"
                       >
-                        <span>{transaction.description || transaction.category.charAt(0).toUpperCase()+ transaction.category.slice(1)}</span>
+                        <span>
+                          {transaction.description ||
+                            transaction.category.charAt(0).toUpperCase() +
+                              transaction.category.slice(1)}
+                        </span>
                       </td>
                       <td
                         className="transaction-category"
@@ -160,19 +179,26 @@ const Transactions = () => {
                       </td>
                       <td className="transaction-actions-cell">
                         <div className="transaction-actions">
-                          <button
+                          {/* <button
                             className="transaction-btn transaction-btn-edit"
                             aria-label="Edit transaction"
                           >
                             <FaEdit />
                             <span className="transaction-btn-text">Edit</span>
-                          </button>
+                          </button> */}
                           <button
                             className="transaction-btn transaction-btn-delete"
                             aria-label="Delete transaction"
                           >
                             <MdDelete />
-                            <span className="transaction-btn-text">Delete</span>
+                            <span
+                              className="transaction-btn-text"
+                              onClick={() =>
+                                handleDeleteTransaction(transaction._id)
+                              }
+                            >
+                              Delete
+                            </span>
                           </button>
                         </div>
                       </td>

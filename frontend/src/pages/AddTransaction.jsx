@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -38,6 +38,7 @@ const AddTransaction = () => {
   const [date, setDate] = useState(today());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   function handleTypeChange(newType) {
     setType(newType);
@@ -47,6 +48,7 @@ const AddTransaction = () => {
   async function handleAddTransaction(e) {
     e.preventDefault();
     setError("");
+    setSuccess("");
 
     if (!amount || Number(amount) <= 0) {
       setError("Enter an amount greater than 0.");
@@ -62,8 +64,11 @@ const AddTransaction = () => {
         { amount: Number(amount), description, category, date, type },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      navigate("/transactions");
+      setSuccess(`Transaction has been saved successfully!`)
+      setTimeout(() => {navigate("/transactions")}, 1500)
+      setAmount("")
+      setDescription("")
+      setCategory(CATEGORIES.expense[0].value)
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -153,6 +158,12 @@ const AddTransaction = () => {
           {error && (
             <p className="add-transaction-error" role="alert">
               {error}
+            </p>
+          )}
+
+          {success && (
+            <p className="add-transaction-success" role="alert">
+              {success}
             </p>
           )}
 

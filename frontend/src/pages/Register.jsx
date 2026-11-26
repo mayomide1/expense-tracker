@@ -26,7 +26,7 @@ const Register = () => {
     }
     try {
       setLoading(true);
-      const response = await axios.post(`${api}/register`, {
+      const response = await axios.post(`${api}/auth/register`, {
         fullName,
         username,
         email,
@@ -35,11 +35,11 @@ const Register = () => {
       setSuccessMsg(response.data.message);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
-      setTimeout(() => navigate("/dashboard"), 1500);
       setFullName("");
       setUserName("");
       setEmail("");
       setPassword("");
+      setTimeout(() => navigate("/dashboard"), 1000);
     } catch (error) {
       const backendMessage = error.response?.data?.message || error.message;
       setErrorMsg(backendMessage);
@@ -59,7 +59,7 @@ const Register = () => {
         <p className="auth-success">{successMsg}</p>
 
         <div className="form-group">
-          <label htmlFor="fullname">Full Name</label>
+          <label htmlFor="fullname">Full name</label>
           <input
             type="text"
             id="fullname"
@@ -100,7 +100,7 @@ const Register = () => {
             type="password"
             id="password"
             name="password"
-            placeholder="Your Username"
+            placeholder="Your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -110,7 +110,7 @@ const Register = () => {
           className="btn btn-primary"
           onClick={() => handleCreateAccount()}
         >
-          {loading ? "Creating account...." : "Create account"}
+          {loading ? "Creating account..." : "Create account"}
         </button>
 
         <p className="auth-footer">

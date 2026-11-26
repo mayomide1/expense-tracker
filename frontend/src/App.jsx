@@ -3,7 +3,6 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import ForgotPassword from './pages/ForgotPassword'
-import ChangePassword from './pages/ChangePassword'
 import Transactions from './pages/Transactions'
 import Settings from './pages/Settings'
 import AddTransaction from './pages/AddTransaction'
@@ -15,7 +14,6 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/change-password" element={<ChangePassword />} />
       <Route element={<Layout/>}>
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/add-transaction" element={<AddTransaction />} />

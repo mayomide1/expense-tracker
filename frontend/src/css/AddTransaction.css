@@ -8,6 +8,7 @@
   --muted: #5b6b64;
   --border: #d5ddd8;
   --accent: #0f6b4f;
+  --accent-soft: #e3f3ec;
   --accent-hover: #0b5640;
   --danger: #b3261e;
   --danger-bg: #fdecea;
@@ -51,14 +52,14 @@
 }
 
 .add-transaction-top {
-  display: flex;
-  align-items: center;
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 20px;
 }
 
 .add-transaction-top h2 {
+  display: flex;
+  align-items: center;
   margin: 0;
   font-size: 1.5rem;
   line-height: 1.2;
@@ -184,6 +185,15 @@
   font-size: 0.925rem;
   color: var(--danger);
   background: var(--danger-bg);
+  border-radius: var(--radius-sm);
+}
+
+.add-transaction-success {
+  margin: 0 0 20px;
+  padding: 12px 16px;
+  font-size: 0.925rem;
+  color: var(--accent);
+  background: var(--accent-soft);
   border-radius: var(--radius-sm);
 }
 

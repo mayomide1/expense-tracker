@@ -94,17 +94,17 @@ const incomeMaxCategoryAmount = Math.max(...incomeSortedCategories.map((c) => c.
           <div className="dash-stats">
             <div className="dash-card dash-stat dash-stat-balance">
               <h2>Balance</h2>
-              <p>₦{balance.toLocaleString()}</p>
+              <p>{balance === 0 ? "₦0.00" : `₦${balance.toLocaleString()}`}</p>
             </div>
 
             <div className="dash-card dash-stat dash-stat-income">
               <h2>Income</h2>
-              <p>₦{totalIncome.toLocaleString()}</p>
+              <p>{totalIncome === 0 ? "₦0.00" : `₦${totalIncome.toLocaleString()}`}</p>
             </div>
 
             <div className="dash-card dash-stat dash-stat-expense">
               <h2>Expenses</h2>
-              <p>₦{totalExpenses.toLocaleString()}</p>
+              <p>{totalExpenses === 0 ? "₦0.00" : `₦${totalExpenses.toLocaleString()}`}</p>
             </div>
           </div>
 
@@ -220,14 +220,10 @@ const incomeMaxCategoryAmount = Math.max(...incomeSortedCategories.map((c) => c.
   );
 };
 
-export function EmptyState() {
+function EmptyState() {
   return (
     <div className="transaction-state transaction-empty">
       <h3>No transactions yet</h3>
-      <p>
-        Start tracking your income and expenses by adding your first
-        transaction.
-      </p>
       <Link to="/add-transaction">
         <button className="transaction-btn transaction-btn-primary">
           Add Transaction
@@ -237,7 +233,7 @@ export function EmptyState() {
   );
 }
 
-export function LoadingState() {
+function LoadingState() {
   return (
     <div className="transaction-state" role="status">
       <span className="transaction-spinner" aria-hidden="true"></span>

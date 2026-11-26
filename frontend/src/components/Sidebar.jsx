@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../css/Sidebar.css";
+
 import { MdKeyboardArrowDown, MdKeyboardArrowUp, MdClose } from "react-icons/md";
+import { MdHome } from "react-icons/md";
+import { IoMdAdd } from "react-icons/io";
+import { FaList } from "react-icons/fa";
+import { IoIosSettings } from "react-icons/io";
 
 const Sidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
@@ -36,7 +41,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     if (window.matchMedia("(max-width: 768px)").matches) onClose();
   }
 
-  function handleLogout() {
+   function handleLogout() {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     navigate("/");
@@ -48,21 +53,21 @@ const Sidebar = ({ isOpen, onClose }) => {
     <aside className={`sb ${isOpen ? "sb--open" : ""}`} aria-hidden={!isOpen}>
       <nav className="sb-nav">
         <button className="sb-close" aria-label="Close sidebar" onClick={onClose}>
-          <MdClose /> Close
+          <MdClose/> Close
         </button>
 
-        <Link className="sb-link" to="/dashboard" onClick={handleNavClick}>
-          Dashboard
-        </Link>
-        <Link className="sb-link" to="/add-transaction" onClick={handleNavClick}>
-          Add Transaction
-        </Link>
-        <Link className="sb-link" to="/transactions" onClick={handleNavClick}>
-          Transactions
-        </Link>
-        <Link className="sb-link" to="/settings" onClick={handleNavClick}>
-          Settings
-        </Link>
+<NavLink className="sb-link" to="/dashboard" onClick={handleNavClick}>
+  <MdHome style={{ fontSize: 20 }} /> Dashboard
+</NavLink>
+<NavLink className="sb-link" to="/add-transaction" onClick={handleNavClick}>
+  <IoMdAdd style={{ fontSize: 20 }} /> Add Transaction
+</NavLink>
+<NavLink className="sb-link" to="/transactions" onClick={handleNavClick}>
+  <FaList style={{ fontSize: 20 }} /> Transactions
+</NavLink>
+<NavLink className="sb-link" to="/settings" onClick={handleNavClick}>
+  <IoIosSettings style={{ fontSize: 20 }} /> Settings
+</NavLink>
       </nav>
 
       <div className="sb-profile" ref={profileRef}>
